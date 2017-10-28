@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import codecs
 
 page = 'http://www.officetally.com/the-office-episode-list-guide'
+#these next two lines are needed for sites that don't allow direct acces and 403
 req = urllib2.Request(page, headers={'User-Agent' : "Magic Browser"})
 html = urllib2.urlopen( req )
 shtml = BeautifulSoup(html, 'html.parser' )
@@ -10,7 +11,7 @@ shtml = BeautifulSoup(html, 'html.parser' )
 rawData = shtml.find('div', {'class' : "entry-content"})
 lis = rawData.find_all('li')
 
-# data = []
+
 f = codecs.open('episode_data', 'w', encoding="utf-8")
 for i in lis:
     l = i.get_text()
@@ -27,6 +28,5 @@ for i in lis:
         l = l[5:]
         string = "Season " + x[0] + " Episode " + x[1] + "- " + l+",\n"
     f.write(string)
-    # data.append(string)
+
 f.close()
-# print data
